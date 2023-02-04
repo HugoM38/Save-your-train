@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:save_your_train/components/tabs_menu.dart';
+import 'package:save_your_train/ui/exercises/exercises.dart';
 
 void main() {
   runApp(const SaveYourTrain());
@@ -14,38 +16,14 @@ class SaveYourTrain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       home: DefaultTabController(
           length: 2,
-          child: Scaffold(bottomNavigationBar: TabsMenu(), body: Scaffold())),
+          child: Scaffold(
+              bottomNavigationBar: const TabsMenu(), body: TabBarView(children: [
+                ExercisesPage(),
+              ]))),
     );
-  }
-}
-
-class TabsMenu extends StatelessWidget {
-  const TabsMenu({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: const Color(0xFF3F5AA6),
-        child: const TabBar(
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorPadding: EdgeInsets.all(5.0),
-          indicatorColor: Colors.blue,
-          tabs: [
-            Tab(
-              text: "Exercices",
-              icon: Icon(Icons.fitness_center),
-            ),
-            Tab(
-              text: "Historiques",
-              icon: Icon(Icons.timer),
-            ),
-          ],
-        ));
   }
 }
