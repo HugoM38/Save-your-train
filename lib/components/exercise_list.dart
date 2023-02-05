@@ -8,6 +8,11 @@ class ExerciseListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(exercises.isEmpty) {
+      return const Center(
+        child: Text("Liste vide"),
+      );
+    }
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context, index) {

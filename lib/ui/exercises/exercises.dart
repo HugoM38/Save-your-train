@@ -6,8 +6,6 @@ import 'package:save_your_train/ui/exercises/layout/exercises_list_layout.dart';
 
 class ExercisesViewInterface extends AlfreedView {
   ExercisesViewInterface(BuildContext context) : super(context: context);
-
-  
 }
 
 class ExercisesPage extends AlfreedPage<ExercisesPresenter, ExercisesViewModel,
@@ -26,8 +24,8 @@ class ExercisesPage extends AlfreedPage<ExercisesPresenter, ExercisesViewModel,
       presenterBuilder: (context) => ExercisesPresenter(context),
       interfaceBuilder: (context) => ExercisesViewInterface(context),
       builder: (context, presenter, model) {
-        return Material(
-          child: ExercisesListLayout(exercises: model.exercises),
+        return const Material(
+          child: ExercisesListLayout(),
         );
       },
     );

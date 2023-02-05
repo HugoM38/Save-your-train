@@ -23,6 +23,7 @@ class SaveYourTrain extends StatelessWidget {
           child: Scaffold(
               bottomNavigationBar: const TabsMenu(), body: TabBarView(children: [
                 ExercisesPage(),
+                const Text("Temporary Text")
               ]))),
     );
   }
