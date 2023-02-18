@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:save_your_train/database/database.dart';
-import 'package:save_your_train/main.dart';
+import 'package:save_your_train/ui/exercises/exercises_notifier.dart';
+import 'package:save_your_train/ui/exercises/exercises_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AddExerciseSheet extends StatefulWidget {
-  const AddExerciseSheet({super.key, required this.loadExercises});
-  final Future<bool> Function() loadExercises;
+  const AddExerciseSheet({super.key, required this.exercisesNotifier});
+  final ExercisesNotifier exercisesNotifier;
 
   @override
   State<AddExerciseSheet> createState() => _AddExerciseSheetState();
@@ -24,37 +25,31 @@ class _AddExerciseSheetState extends State<AddExerciseSheet> {
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 32.0, right: 32.0),
           child: TextField(
             decoration: const InputDecoration(
-              labelText: "Nom de l'exercice", //babel text
-              hintText: "Entrez le nom de l'exercice", //hint text
-              //prefixIcon: Icon(Icons.fitness_center), //prefix iocn
-              hintStyle: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold), //hint text style
-              labelStyle:
-                  TextStyle(fontSize: 15, color: Colors.blue), //label style
+              labelText: "Nom de l'exercice",
+              hintText: "Entrez le nom de l'exercice",
+              hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              labelStyle: TextStyle(fontSize: 15, color: Colors.blue),
             ),
             controller: exerciseNameController,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 32.0, right: 32.0),
           child: TextField(
             decoration: const InputDecoration(
-              labelText: "Description", //babel text
-              hintText: "Entrez la description de l'exercice", //hint text
-              //prefixIcon: Icon(Icons.fitness_center), //prefix iocn
-              hintStyle: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold), //hint text style
-              labelStyle:
-                  TextStyle(fontSize: 15, color: Colors.blue), //label style
+              labelText: "Description",
+              hintText: "Entrez la description de l'exercice",
+              hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              labelStyle: TextStyle(fontSize: 15, color: Colors.blue),
             ),
             controller: exerciseDescriptionController,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 32.0, right: 32.0),
           child: ElevatedButton(
               onPressed: () async {
                 if (exerciseNameController.text.isEmpty) return;
@@ -75,14 +70,21 @@ class _AddExerciseSheetState extends State<AddExerciseSheet> {
                   'exerciseDescription': exerciseDescriptionController.text
                 });
 
-                await widget.loadExercises();
-
                 if (context.mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SaveYourTrain()),
-                  );
+                  widget.exercisesNotifier
+                      .addExercise(ExerciseModel(
+                          exerciseName: exerciseNameController.text,
+                          exerciseDescription:
+                              exerciseDescriptionController.text));
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute<void>(
+                  //     builder: (BuildContext context) => const SaveYourTrain(),
+                  //   ),
+                  // );
+
+                  Navigator.pop(context);
                 }
               },
               child: const Text("Créer l'exercice")),

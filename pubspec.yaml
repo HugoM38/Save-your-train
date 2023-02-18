@@ -39,6 +39,10 @@ dependencies:
   sqflite:
   path:
   fluttertoast: ^8.1.2
+  state_notifier: ^0.7.2+1
+  flutter_state_notifier: ^0.7.1
+  provider: ^6.0.5
+  flutter_riverpod: ^2.2.0
 
 dev_dependencies:
   flutter_test:

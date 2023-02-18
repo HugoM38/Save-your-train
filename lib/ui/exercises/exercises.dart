@@ -1,33 +1,22 @@
-import 'package:alfreed/alfreed.dart';
 import 'package:flutter/material.dart';
-import 'package:save_your_train/ui/exercises/exercises_presenter.dart';
-import 'package:save_your_train/ui/exercises/exercises_viewmodel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:save_your_train/ui/exercises/exercises_model.dart';
+import 'package:save_your_train/ui/exercises/exercises_notifier.dart';
 import 'package:save_your_train/ui/exercises/layout/exercises_list_layout.dart';
 
-class ExercisesViewInterface extends AlfreedView {
-  ExercisesViewInterface(BuildContext context) : super(context: context);
-}
-
-class ExercisesPage extends AlfreedPage<ExercisesPresenter, ExercisesViewModel,
-    ExercisesViewInterface> {
-  ExercisesPage({
-    String? args,
-    Key? key,
-  }) : super(args: args, key: key);
+class ExercisesPage extends ConsumerWidget {
+  const ExercisesPage({super.key});
 
   @override
-  AlfreedPageBuilder<ExercisesPresenter, ExercisesViewModel,
-      ExercisesViewInterface> build() {
-    return AlfreedPageBuilder<ExercisesPresenter, ExercisesViewModel,
-        ExercisesViewInterface>(
-      key: const ValueKey('ExercisesPagePresenter'),
-      presenterBuilder: (context) => ExercisesPresenter(context),
-      interfaceBuilder: (context) => ExercisesViewInterface(context),
-      builder: (context, presenter, model) {
-        return const Material(
-          child: ExercisesListLayout(),
-        );
-      },
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<ExerciseModel> exercises = ref.watch(exercisesProvider);
+    final ExercisesNotifier exercisesNotifier =
+        ref.watch(exercisesProvider.notifier);
+    if (exercises.isEmpty) {
+      exercisesNotifier.loadExercisesFromDatabase();
+      print("test");
+    }
+    return ExercisesListLayout(
+        exercisesNotifier: exercisesNotifier, exercises: exercises);
   }
 }
