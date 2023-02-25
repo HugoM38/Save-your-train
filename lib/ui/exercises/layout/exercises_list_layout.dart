@@ -23,8 +23,8 @@ class _ExercisesListLayoutState extends State<ExercisesListLayout> {
                 onPressed: () async {
                   showModalBottomSheet<void>(
                       context: context,
-                      isDismissible: false,
-                      enableDrag: false,
+                      isDismissible: true,
+                      enableDrag: true,
                       isScrollControlled: true,
                       builder: (BuildContext context) {
                         return SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:save_your_train/ui/exercise/exercise.dart';
 import 'package:save_your_train/ui/exercises/exercises_model.dart';
 
 class ExerciseListView extends StatefulWidget {
@@ -12,7 +13,7 @@ class ExerciseListView extends StatefulWidget {
 class _ExerciseListViewState extends State<ExerciseListView> {
   @override
   Widget build(BuildContext context) {
-    if(widget.exercises.isEmpty) {
+    if (widget.exercises.isEmpty) {
       return const Center(
         child: Text("Liste vide"),
       );
@@ -20,11 +21,20 @@ class _ExerciseListViewState extends State<ExerciseListView> {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(widget.exercises[index].exerciseName,
-                  style: const TextStyle(fontSize: 30)),
-              subtitle: Text(widget.exercises[index].exerciseDescription),
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ExercisePage(
+                          exerciseName: widget.exercises[index].exerciseName)));
+            },
+            child: Card(
+              child: ListTile(
+                title: Text(widget.exercises[index].exerciseName,
+                    style: const TextStyle(fontSize: 30)),
+                subtitle: Text(widget.exercises[index].exerciseDescription),
+              ),
             ),
           );
         },

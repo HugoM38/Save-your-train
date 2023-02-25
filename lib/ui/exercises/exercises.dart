@@ -14,7 +14,6 @@ class ExercisesPage extends ConsumerWidget {
         ref.watch(exercisesProvider.notifier);
     if (exercises.isEmpty) {
       exercisesNotifier.loadExercisesFromDatabase();
-      print("test");
     }
     return ExercisesListLayout(
         exercisesNotifier: exercisesNotifier, exercises: exercises);
