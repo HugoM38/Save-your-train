@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:save_your_train/ui/exercise/layout/launched_exercise_layout.dart';
 
 class ExerciseForm extends StatefulWidget {
   const ExerciseForm({super.key});
@@ -106,12 +107,34 @@ class _ExerciseFormState extends State<ExerciseForm> {
                   executionTimeController.text.isNotEmpty,
                   weightController.text.isNotEmpty,
                   repetitionNumberController.text.isNotEmpty)) {
-                print("yes");
+                if (context.mounted) {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      isDismissible: true,
+                      enableDrag: true,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.75,
+                          child: LaunchedExerciseSheet(
+                              execution:
+                                  int.tryParse(executionTimeController.text),
+                              rest: int.tryParse(restTimeController.text),
+                              repetition:
+                                  int.tryParse(repetitionNumberController.text),
+                              weight: double.tryParse(weightController.text),
+                              series:
+                                  int.tryParse(seriesNumberController.text) ??
+                                      1),
+                        );
+                      });
+                }
               } else {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     backgroundColor: Colors.blue,
-                    content: Center(child: Text("Ce cas d'exercice n'est pas possible")),
+                    content: Center(
+                        child: Text("Ce cas d'exercice n'est pas possible")),
                   ));
                 }
               }
